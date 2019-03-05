@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>refactored</title>
+</head>
+<body>
+    <ul>
+        {{range .Wisdom}}
+        <li>My name is {{.Name}} and I live by {{.Motto}}</li>
+        {{end}}
+    </ul>
+    <ul>
+        {{range .Transport}}
+        <li>The {{.Manufacturer}} {{.Model}} with {{.Doors}} Doors is a good vehicle</li>
+        {{end}}
+    </ul>
+</body>
+</html>
