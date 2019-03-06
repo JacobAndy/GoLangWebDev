@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+	"os"
 	"strings"
 	"text/template"
 )
@@ -16,6 +18,10 @@ type car struct {
 	Manufacturer string
 	Model        string
 	Doors        int
+}
+type items struct {
+	Wisdom    []sage
+	Transport []car
 }
 
 var fm = template.FuncMap{
@@ -38,7 +44,57 @@ func firstThree(s string) string {
 func main() {
 
 	jake := sage{
-		Name: "Jacob",
+		Name:  "Jacob",
+		Motto: "Work hard play hard",
 	}
-
+	joe := sage{
+		Name:  "Joseph",
+		Motto: "Make that money",
+	}
+	jarid := sage{
+		Name:  "jarid",
+		Motto: "rona season",
+	}
+	aaron := sage{
+		Name:  "Aaron",
+		Motto: "Web Dev",
+	}
+	jakeCar := car{
+		Manufacturer: "Audi",
+		Model:        "rs5",
+		Doors:        4,
+	}
+	joeCar := car{
+		Manufacturer: "Ram",
+		Model:        "1500",
+		Doors:        4,
+	}
+	jaridCar := car{
+		Manufacturer: "Mazda",
+		Model:        "3 speed",
+		Doors:        4,
+	}
+	aaronCar := car{
+		Manufacturer: "Hyundai",
+		Model:        "Sonata",
+		Doors:        4,
+	}
+	data := items{
+		Wisdom: []sage{
+			jake,
+			joe,
+			jarid,
+			aaron,
+		},
+		Transport: []car{
+			jakeCar,
+			joeCar,
+			jaridCar,
+			aaronCar,
+		},
+	}
+	err := tpl.ExecuteTemplate(os.Stdout, "tpl.gohtml", data)
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
