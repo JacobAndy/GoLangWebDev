@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>predefined function AND at use</title>
+    </head>
+    <body>
+        EXAMPLE 1:
+        {{range .}}
+            {{.}}
+        {{end}}
+
+
+        EXAMPLE 2:
+        {{if .}}
+            {{.}}
+        {{end}}
+
+
+        EXAMPLE 3:
+        {{ range . }}
+            {{ if .Name}}
+                {{ .Name }}
+            {{ end }}
+        {{ end }}
+
+        EXAMPLE 4:
+        {{ range . }}
+            {{ if and .Name .Admin }}
+               I am true all around, my name is: {{.Name}}
+            {{ end }}
+        {{end}}
+
+    </body>
+</html>

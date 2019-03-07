@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>comparison in go template</title>
+    </head>
+    <body>
+        {{if gt .Score1 .Score2}}
+            SCORE 1 > SCORE 2   
+        {{end}}
+
+        {{ if lt .Score1 .Score2}}
+            {{.Score1}} is less than {{.Score2}}
+        {{ end }}
+
+        {{ if eq .Score1 .Score2}}
+            {{.Score1}} === {{.Score2}}
+        {{ end }}
+
+        {{ if lt .Score1 100}}
+            {{.Score1}} is less than 100
+        {{ end }}
+    </body>
+</html>
