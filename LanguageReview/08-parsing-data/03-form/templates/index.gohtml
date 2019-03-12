@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>passing data in a form</title>
+    </head>
+    <body>
+        <form method="post" action="/">
+            <input type="text" name="first">
+            <input type="text" name="last">
+            <input type="checkbox" name="subscribed">
+            <input type="submit" name="submit-btn">
+        </form>
+        <p>first name: {{.FirstName}}</p>
+        <p>last name: {{.LastName}}</p>
+        <p>subscribed: {{.Subscribed}}
+    </body>
+</html>
