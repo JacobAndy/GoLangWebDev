@@ -2,6 +2,7 @@ package main
 
 import (
 	"html/template"
+	"log"
 	"net/http"
 )
 
@@ -29,5 +30,6 @@ func i(w http.ResponseWriter, req *http.Request) {
 	err := tpl.ExecuteTemplate(w, "index.gohtml", body)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		log.Fatalln(err)
 	}
 }
