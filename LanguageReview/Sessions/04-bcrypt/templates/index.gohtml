@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Home Page</title>
+  </head>
+  <body>
+    {{if and .First .Last}}
+    <h1>
+      Welcome to the home page {{.First}} {{.Last}}, feel free to visit our bar
+      <a href="/bar">here</a>
+    </h1>
+    <p>
+      your information <br />User Name: {{.UserName}}<br />Password:
+      {{.Password}}
+    </p>
+    {{else}}
+    <a href="/signup">Sign in here</a>
+    {{ end }}
+  </body>
+</html>
