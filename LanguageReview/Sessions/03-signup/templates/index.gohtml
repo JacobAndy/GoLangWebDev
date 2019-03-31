@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    {{if and .First .Last}}
+    <p>Hello, {{.First}} {{.Last}}</p>
+    <h3>Join us at the bar <a href="/bar">here</a></h3>
+    {{else}}
+    <h1>Sign up with us today! <a href="/signup">here</a></h1>
+    {{ end }}
+  </body>
+</html>
