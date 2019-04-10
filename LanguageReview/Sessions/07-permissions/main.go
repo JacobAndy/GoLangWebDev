@@ -13,6 +13,7 @@ type user struct {
 	Password []byte
 	First    string
 	Last     string
+	Role     string
 }
 
 var tpl *template.Template
@@ -23,7 +24,7 @@ func init() {
 	tpl = template.Must(template.ParseGlob("templates/*"))
 	bs, _ := bcrypt.GenerateFromPassword([]byte("password"), bcrypt.MinCost)
 	uN := "test@test.com"
-	u := user{uN, bs, "Jacob", "Anderson"}
+	u := user{uN, bs, "Jacob", "Anderson", "admin"}
 	dbUsers[uN] = u
 }
 
@@ -32,6 +33,7 @@ func main() {
 	http.HandleFunc("/bar", bar)
 	http.HandleFunc("/signup", signup)
 	http.HandleFunc("/login", login)
+	http.HandleFunc("/logout", logout)
 	http.Handle("/favicon.ico", http.NotFoundHandler())
 	http.ListenAndServe(":8080", nil)
 }
@@ -43,6 +45,10 @@ func bar(w http.ResponseWriter, req *http.Request) {
 	u := getUser(w, req)
 	if !alreadyLoggedIn(req) {
 		http.Redirect(w, req, "/", http.StatusSeeOther)
+		return
+	}
+	if u.Role != "007" {
+		http.Error(w, "You must be 007 to enter the bar", http.StatusForbidden)
 		return
 	}
 	tpl.ExecuteTemplate(w, "bar.gohtml", u)
@@ -58,6 +64,7 @@ func signup(w http.ResponseWriter, req *http.Request) {
 		p := req.FormValue("password")
 		f := req.FormValue("firstname")
 		l := req.FormValue("lastname")
+		r := req.FormValue("role")
 		if _, ok := dbUsers[un]; ok {
 			http.Error(w, "User name already taken", http.StatusForbidden)
 			return
@@ -74,7 +81,7 @@ func signup(w http.ResponseWriter, req *http.Request) {
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
 		}
-		u = user{un, bs, f, l}
+		u = user{un, bs, f, l, r}
 		dbUsers[un] = u
 		http.Redirect(w, req, "/", http.StatusSeeOther)
 		return
@@ -110,4 +117,21 @@ func login(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	tpl.ExecuteTemplate(w, "login.gohtml", nil)
+}
+func logout(w http.ResponseWriter, req *http.Request) {
+	if !alreadyLoggedIn(req) {
+		http.Redirect(w, req, "/", http.StatusSeeOther)
+		return
+	}
+	c, _ := req.Cookie("session")
+	delete(dbSessions, c.Value)
+	c = &http.Cookie{
+		Name:  "session",
+		Value: "",
+		// when max age is less than 0, means
+		// delete the cookie now
+		MaxAge: -1,
+	}
+	http.SetCookie(w, c)
+	http.Redirect(w, req, "/login", http.StatusSeeOther)
 }
